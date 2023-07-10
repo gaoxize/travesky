@@ -11,3 +11,8 @@ int is_empty(void)
 {
 	return top == -1;
 }
+
+int is_emptys(void)
+{
+	return top == 0;
+}

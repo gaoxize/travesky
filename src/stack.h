@@ -6,11 +6,19 @@
  *      Author: onl_
  */
 
+#include "main.h"
+
+
 #ifndef SRC_STACK_H_
 #define SRC_STACK_H_
+
 
 extern void push(char);
 extern char pop(void);
 extern int is_empty(void);
+extern int is_emptys(void);
+extern void pushs(item_t);
+extern item_t pops(void);
 
-#endif /* SRC_STACK_H_ */
+
+#endif * SRC_STACK_H_ */
