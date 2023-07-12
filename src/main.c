@@ -14,7 +14,23 @@
 #include "redirect_ptr.h"
 #include "para_allocator.h"
 #include "para_callback.h"
+#include "populator.h"
+#include "generics.h"
 
+ typedef struct {
+	 const char *name;
+	 int score;
+ } student_t;
+
+int cmp_student(void *a, void *b){
+	if(((student_t *)a)->score > (((student_t *)b)->score)){
+		return 1;
+	}else if(((student_t *)a)->score == (((student_t *)b)->score)){
+		return 0;
+	}else{
+		return -1;
+	}
+}
  int a, b = 1;
 
  struct point predecessor[MAX_ROW][MAX_COL] = {
@@ -34,6 +50,7 @@
 
  }
 
+
 /*内联函数*/
 static inline int MAX(int a, int b)
 {
@@ -48,6 +65,9 @@ typedef struct {
 	unsigned int five:8;
 	unsigned int six:8;
 } demo_type;
+
+
+
 int c[] = {9,3,5,2,1,0,8,7,6,4};
 int max(int n){
 	return n == 0 ? c[0]:MAX(c[0],max(n-1));
@@ -70,6 +90,7 @@ int *swap(int *px, int *py)
 void say_hello(void *str){
 	printf("Hello %s\n",(const char *)str);
 }
+
 void count_numbers(void *num){
 	int i;
 	for(i=1;i<=(int)num;i++)
@@ -87,6 +108,7 @@ int main(void)
 	char bs[] = "Hello World";
 	register int c = 50;
 	printf("Hello World %d\n",c);
+
 
 	struct point po = {0,0};
 	maze[po.row][po.col] = 2;
@@ -109,6 +131,10 @@ int main(void)
 	}
 
 	printf("%s\n",__func__);
+
+	unit_ts ts;
+	set_unit(&ts);
+	printf("number; %d\nmsg: %s\n",ts.number,ts.msg);
 
 	demo_type s = {1,5,513,17,129,0x81};
 	printf("sizeof demo_type = %u\n",sizeof(demo_type));
@@ -139,6 +165,11 @@ int main(void)
 
 	repeat_three_times(say_hello, (void *) "Guys");
 	repeat_three_times(count_numbers, (void *)4);
+
+	student_t list[4] = {{"tom",68},{"jerry",72},{"moby",60},{"kirby",89}};
+	student_t *plist = {&list[0],&list[1],&list[2],&list[3]};
+	student_t *pmax = maxresult((void **)plist,4, cmp_student);
+	printf("%s gets the highest score %d\n",pmax->name,pmax->score);
 
 
 	unit_t *t1 = NULL;
