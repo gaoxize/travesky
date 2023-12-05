@@ -16,6 +16,7 @@
 #include "para_callback.h"
 #include "populator.h"
 #include "generics.h"
+#include "weekday.h"
 
  typedef struct {
 	 const char *name;
@@ -50,6 +51,9 @@ int cmp_student(void *a, void *b){
 
  }
 
+void print_time(void){
+	printf("%d:%d in print_time\n",23,59);
+}
 
 /*内联函数*/
 static inline int MAX(int a, int b)
@@ -109,7 +113,7 @@ int main(void)
 	register int c = 50;
 	printf("Hello World %d\n",c);
 
-
+    print_time();
 	struct point po = {0,0};
 	maze[po.row][po.col] = 2;
 	pushs(po);
@@ -177,6 +181,8 @@ int main(void)
 	printf("number: %d\n Ms: %s\n",t1->number,t1->msg);
 	free_unit(t1);
 	t1 = NULL;
+
+	print_day(3);
 	return 0;
 }
 
