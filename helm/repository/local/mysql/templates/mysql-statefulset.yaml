@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  serviceName: mysql
+  template:
+    metadata:
+      name: mysql
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: {{ .Values.IMAGE.NAME }}:{{ .Values.IMAGE.TAG }}
+        env:
+          - name: TZ
+            value: "Asia/Shanghai"
+          - name: MYSQL_INITDB_SKIP_TZINFO
+            value: "yes"
+          - name: MYSQL_ROOT_PASSWORD
+            value: {{ .Values.MYSQL_ROOT_PASWORD }}
+          - name: MYSQL_DATABASE
+            value: "nacos"
+          - name: MYSQL_USER
+            value: "nacos"
+          - name: MYSQL_PASSWORD
+            value: "nacos"
+        resources:
+          limits:
+            cpu: 400m
+            memory: 2048Mi
+          requests:
+            cpu: 300m
+            memory: 1024Mi
+        ports:
+          - containerPort: 3306
+            name: mysql
+
+        volumeMounts:
+          - name: mysql-cnf
+            mountPath: /etc/my.cnf.d
+          - name: mysql-user
+            mountPath: /etc/foo
+            readOnly: true
+      volumes:
+        - name: mysql-cnf
+          configMap:
+            name: mysql-config
+            items:
+            - key: my.cnf
+              path: my.cnf
+        - name: mysql-user
+          secret:
+            secretName: mysql-user
+      serviceAccount: mysql-role
