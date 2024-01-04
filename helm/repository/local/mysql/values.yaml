@@ -1,0 +1,4 @@
+IMAGE:
+  NAME: harbor.dcos.wuxi.unicom.local/tidb/mysql
+  TAG: 5.7.21
+MYSQL_ROOT_PASWORD: root
