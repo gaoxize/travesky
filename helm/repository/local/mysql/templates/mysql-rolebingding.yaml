@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: mysql-rolebinding
+subjects:
+- kind: User
+  name: mysql
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: mysql-role
+  apiGroup: ""
+/yaml/helm/rep
