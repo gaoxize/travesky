@@ -1,11 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: {{ template "mysql.fullname" . }}
 spec:
+  type: {{ .Values.MYSQL.SERVICE.TYPE }}
   ports:
-  - port: 3306
+  - port: {{ .Values.MYSQL.SERVICE.PORT }}
     name: mysql
   selector:
-    app: mysql
+    {{- include "mysql.labels" . | nindent 4 }}
   clusterIP: None
