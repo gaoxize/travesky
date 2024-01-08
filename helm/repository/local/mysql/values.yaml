@@ -1,4 +1,9 @@
-IMAGE:
-  NAME: harbor.dcos.wuxi.unicom.local/tidb/mysql
-  TAG: 5.7.21
-MYSQL_ROOT_PASWORD: root
+MYSQL:
+  DEPLOYMENT:
+    IMAGE: harbor.dcos.wuxi.unicom.local/tidb/mysql
+    TAG: 5.7.21
+    REPLICACOUNT: 1
+  MYSQL_ROOT_PASWORD: root
+  SERVICE:
+    TYPE: ClusterIP
+    PORT: 3306
