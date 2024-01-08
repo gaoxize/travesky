@@ -1,29 +1,31 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: mysql
+  name: {{ template "mysql.fullname" . }}
+  labels:
+    {{- include "mysql.labels" . | nindent 4 }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.MYSQL.DEPLOYMENT.REPLICACOUNT }}
   selector:
     matchLabels:
-      app: mysql
+      {{- include "mysql.selectorLabels" . | nindent 6 }}
   serviceName: mysql
   template:
     metadata:
       name: mysql
       labels:
-        app: mysql
+        {{- include "mysql.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - name: mysql
-        image: {{ .Values.IMAGE.NAME }}:{{ .Values.IMAGE.TAG }}
+        image: {{ .Values.MYSQL.DEPLOYMENT.IMAGE }}:{{ .Values.MYSQL.DEPLOYMENT.TAG }}
         env:
           - name: TZ
             value: "Asia/Shanghai"
           - name: MYSQL_INITDB_SKIP_TZINFO
             value: "yes"
           - name: MYSQL_ROOT_PASSWORD
-            value: {{ .Values.MYSQL_ROOT_PASWORD }}
+            value: {{ .Values.MYSQL.MYSQL_ROOT_PASWORD }}
           - name: MYSQL_DATABASE
             value: "nacos"
           - name: MYSQL_USER
